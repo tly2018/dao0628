@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC   
+    "-//mybatis.org//DTD Mapper 3.0//EN"  
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+    <mapper namespace="com.neuedu.dao.StudentDao">
+    <resultMap type="Student" id="stu">
+    	<result property="sno" column="sno"/>
+    	<result property="sname" column="sname"/>
+    	<result property="img" column="img"/>
+    	<result property="sage" column="sage"/>
+    	<result property="ssex" column="ssex"/>
+    	<result property="tel" column="tel"/>
+    	<result property="date" column="date"/>
+    	<result property="clazzId" column="clazz_id"/>
+    	<association property="clazz" column="clazz_id" javaType="Clazz" select="getClazzs"></association>
+    	<collection property="scs" column="sno" javaType="java.util.List" ofType="Sc" select="getScs" ></collection>
+    </resultMap>
+    <resultMap type="Sc" id="sc">
+    	<result property="sno" column="sno"/>
+    	<result property="cno" column="cno"/>
+    	<result property="grade" column="grade"/>
+    	<association property="courses" column="cno" javaType="Sc" select="getcourses"></association>
+    </resultMap>
+    <resultMap type="Clazz" id="cla">
+    	<result property="id" column="id"/>
+    	<result property="className" column="class_name"/>
+    </resultMap>
+   	<select id="gets" resultMap="stu">
+   		select sno,sname,img,sage,ssex,tel,date,clazz_id from student_a
+   	</select>
+   	<select id="getScs" parameterType="java.lang.Integer" resultMap="sc">
+   		select cno,sno,grade from sc where sno=#{sno}
+   	</select>
+   <select id="getcourses" parameterType="java.lang.Integer" resultType="Course" >
+   		select cno,cname from course where cno=#{cno}
+   </select>
+    <select id="getClazzs" resultMap="cla" parameterType="java.lang.Integer" >
+    	select	id,class_name from clazz where id=#{clazzId}
+    </select>
+
+    <select id="getAll" resultMap="stu" >
+    	select  sno,sname,img,sage,ssex,tel,date,clazz_id from student_a  
+    </select>
+    <select id="getOne" resultMap="stu">
+    	select sno,sname,img,sage,ssex,tel,date,clazz_id from student_a where sno=#{sno}
+    </select>
+    <update id="update" parameterType="Student">
+    	update student_a set sname=#{sname},sage=#{sage}  where sno=#{sno}
+    </update>
+    
+    
+    
+    
+    
+    
+    
+    
+    	<select id="getStudents" resultType="Student">
+    		select * from student_a
+    	</select>
+    </mapper>

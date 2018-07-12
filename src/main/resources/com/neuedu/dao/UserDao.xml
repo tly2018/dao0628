@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC   
+    "-//mybatis.org//DTD Mapper 3.0//EN"  
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+    <mapper namespace="com.neuedu.dao.UserDao">
+    	<select id="getOne" resultType="User" parameterType="java.lang.String">
+    		select username,password,code from user_a  where username=#{username}  	
+    	</select>
+    	<update id="update" parameterType="User">
+    		update user_a set password=#{password} where username=#{username}
+    	</update>
+    </mapper>
